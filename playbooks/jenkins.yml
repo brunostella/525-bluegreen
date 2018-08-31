@@ -1,0 +1,27 @@
+- name: Instalacao
+  hosts: automation
+  tasks:
+
+#  - name: dependencia
+#    yum:
+
+  - name: adicionando repo
+    yum_repository:
+     name: jenkins
+     description: jenkins repo
+#     baseurl: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+     baseurl: http://pkg.jenkins.io/redhat-stable
+     gpgkey: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+#  - name: instalando dependencias
+#    yum:
+#      name:
+#       - java
+#      state: present
+
+  - name: instalando jenkins
+    package:
+      name:
+       - jenkins
+      state: latest
+

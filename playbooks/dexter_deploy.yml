@@ -1,0 +1,52 @@
+- name: Deploy
+  hosts: docker
+  tasks:
+
+#  PEGAR VERSAO DA WORKSPACE E COLOCAR NO VOLUME COMPARTILHADO
+#
+
+  - name: testando se um arquivo existe
+    shell: "test -f /etc/nginx/sites-enabled/green.conf"
+    register: resultado
+    ignore_errors: yes
+
+#   - name: debugando...
+#     debug:
+#      var: resultado
+
+
+# se 0, entao trabalhar na blue; se 1, entao trabalhar na green
+
+#  PEGAR IP DO CONTAINER
+
+   
+  - name: pegando IP blue
+    shell: "docker exec blue hostname -I"
+    register: ipblue
+    ignore_errors: yes
+    when: resultado.rc == 0
+
+  - name: pegando IP green
+    shell: "docker exec green hostname -I"
+    register: ipgreen
+    ignore_errors: yes
+    when: resultado.rc == 1
+
+
+#  GERA NOVO VHOSTS A PARTIR DO TEMPLATE
+  - name: copiando template blue
+    template:
+      src: vhosts.conf.template.blue
+      dest: /etc/nginx/sites-enabled/blue.conf
+    when: resultado.rc == 0
+
+  - name: copiando template green
+    template:
+      src: vhosts.conf.template.green
+      dest: /etc/nginx/sites-enabled/green.conf
+    when: resultado.rc == 1
+
+#  APAGA VHOSTS ANTIGO
+#
+#
+#  RESTART NGINX

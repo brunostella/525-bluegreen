@@ -1,0 +1,7 @@
+- name: pre requisitos de pacotes e servicos
+  hosts: docker
+  roles:
+   - pre-docker
+
+
+

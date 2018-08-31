@@ -1,0 +1,7 @@
+- name: criando a infraestrutura de microservicos na maquina docker
+  hosts: docker
+  roles:
+   - container-docker
+
+
+

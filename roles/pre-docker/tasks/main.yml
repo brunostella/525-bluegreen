@@ -1,0 +1,6 @@
+---
+# tasks file for pre-docker
+
+- name: Garantindo pacotes e servicos iniciais
+  include: dexter_pre_req.yml
+

@@ -1,0 +1,25 @@
+   - name: Pacotes instalados
+     package:
+      name: 
+       - python-pip
+       - docker-ce
+       - nginx
+      state: present
+
+   - name: instalando o docker-py para gerenciar o docker com ansible
+     pip:
+      name: docker-py
+
+   - name: Servicos iniciados
+     service:
+      name: nginx
+      state: started
+      enabled: yes
+
+   - name: Servicos iniciados docker
+     service:
+      name: docker
+      state: started
+      enabled: yes
+
+

@@ -1,0 +1,23 @@
+- name: criando containers
+  hosts: docker
+  tasks:
+   
+   - name: criando o diretorio para o volume
+     file:
+      name: "{{item}}"
+      state: directory
+     with_items:
+      - /index/blue
+      - /index/green
+
+
+   - name: containers
+     docker_container:
+      name: "{{item.name}}"
+      image: httpd
+      state: started
+      volumes:
+       - "{{item.volume}}:/usr/local/apache2/htdocs/"
+     with_items:
+      - { name: green, volume: /index/green }
+      - { name: blue, volume: /index/blue }
